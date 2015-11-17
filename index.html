@@ -49,9 +49,15 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Phone</label>
+            <label class="col-sm-2 control-label">Office</label>
             <div class="col-sm-10">
               <input class="form-control sig-input" data-name="sigOfficePhone" placeholder="Office Phone Number">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Mobile</label>
+            <div class="col-sm-10">
+              <input class="form-control sig-input" data-name="sigMobilePhone" placeholder="Mobile Phone Number">
             </div>
           </div>
           <div class="form-group">
@@ -106,7 +112,11 @@
                     <br>
                     <span style="color: rgb(33, 33, 33); display: inline;" class="txt sigTitle sig-hide">Title</span>
                     <span class="company-sep break" style="display: inline;"><br></span>
-                    <span style="color: rgb(33, 33, 33); display: inline;" class="txt office-sep sep">O </span> <span style="color: rgb(33, 33, 33); display: inline;" class="txt sigOfficePhone sig-hide">2345 6789</span> 
+                    <span style="color: rgb(33, 33, 33); display: inline;" class="txt office-sep sep">O </span> <span style="color: rgb(33, 33, 33); display: inline;" class="txt sigOfficePhone sig-hide">2345 6789</span>
+
+                    <span class="mobilePhoneWrapper"><span style="color: rgb(128, 128, 128)"> | </span><span style="color: rgb(33, 33, 33); display: inline;" class="txt office-sep sep">M </span> <span style="color: rgb(33, 33, 33); display: inline;" class="txt sigMobilePhone sig-hide"></span></span>
+
+
                     <span class="address-sep break" style="display: inline;"><br></span> <span style="color: rgb(33, 33, 33); display: inline;" class="txt sigAddress1 sig-hide">23/F Nan Fung Tower, 88 Connaught Road C, Central, Hong Kong</span>
                     <span class="website-sep break" style="display: inline;"><br></span>
                     <a class="link sigWebsite sig-hide" href="http://themills.com.hk" style="color: rgb(71, 124, 204); text-decoration: none; display: inline;">http://themills.com.hk</a>
@@ -151,12 +161,16 @@
   <script>
   $('document').ready(function(){
 
-    updateMarkup = function(){
-      $emailSigMarkup.html($emailSigSample.html());
-    }
 
     $emailSigMarkup = $('.email-sig-markup');
     $emailSigSample = $('.email-sig-sample');
+    $mobileSigWrapper = $('.mobilePhoneWrapper');
+    mobileSigContent = $mobileSigWrapper.html();
+    $mobileSigWrapper.html('');
+
+    updateMarkup = function(){
+      $emailSigMarkup.html($emailSigSample.html());
+    }
     
     $('.sig-input').on('keyup', function(e) {
       var value = $(e.currentTarget).val();
@@ -166,10 +180,20 @@
       if (name == 'sigFacebook' || name == 'sigTwitter' || name == 'sigInstagram') {
         $target.attr('href', value);
       } else {
-        $target.html(value);
         if (name == 'sigWebsite') {
           $target.attr('href', value);
         }
+        if (name == 'sigMobilePhone') {
+          if (value == ''){
+            $mobileSigWrapper.html('');
+          } else {
+            $mobileSigWrapper.html(mobileSigContent);
+            var $target = $('.'+name);
+          }
+        }
+
+        $target.html(value);
+
       }
       updateMarkup();
     });
